@@ -34,6 +34,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "adpd188.h"
+#include "esp_err.h"
+#include "esp_log.h"
 
 /* Private macros ------------------------------------------------------------*/
 
@@ -42,10 +44,37 @@
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
+static const char *TAG = "adpd188";
 
 /* Private function prototypes -----------------------------------------------*/
 
 /* Exported functions definitions --------------------------------------------*/
+/**
+ * @brief Function to initialize a ADPD188 instance.
+ */
+esp_err_t adpd188_init(adpd188_t *const me, i2c_bus_t *i2c_bus, uint8_t dev_addr) {
+	/* Print initializing message */
+	ESP_LOGI(TAG, "Initializing instance...");
+
+	esp_err_t ret = ESP_OK;
+
+	/* Add devit to bus */
+	ret = i2c_bus_add_dev(i2c_bus, dev_addr, TAG, NULL, NULL);
+
+	if (ret != ESP_OK) {
+		ESP_LOGE(TAG, "Failed to add device to I2C bus");
+		return ret;
+	}
+
+	/* Reference the new device created to instance structure */
+	me->i2c_dev = &i2c_bus->devs.dev[i2c_bus->devs.num - 1]; /* todo: write function to get the dev from name */
+
+	/* Print successful initialization message */
+	ESP_LOGI(TAG, "Instance initialized successfully");
+
+	/* Return ESP_OK */
+	return ret;
+}
 
 /* Private function definitions ----------------------------------------------*/
 
