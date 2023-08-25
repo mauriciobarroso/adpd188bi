@@ -81,8 +81,56 @@ esp_err_t adpd188_init(adpd188_t *const me, i2c_bus_t *i2c_bus, uint8_t dev_addr
 	ESP_LOGI(TAG, "Instance initialized successfully");
 
 	/* Initialize interrupt GPIO */
+	// todo: initialize GPIO
 
 	/*  */
+	adpd188_soft_reset(me);
+	adpd188_set_mode(me, ADPD188_MODE_IDLE);
+
+	uint16_t devid;
+
+	i2c_read(ADPD188_REG_DEVID, &devid, me->i2c_dev);
+	printf("ID: 0x%.2X\r\n", (uint16_t)(devid  & 0xFF));
+	printf("Rev: 0x%.2X\r\n", (uint16_t)((devid >> 8) & 0xFF));
+
+//  i2c_write(0x11, 0x30A9, me->i2c_dev);
+//  i2c_write(0x12, 0x0200, me->i2c_dev);
+//  i2c_write(0x14, 0x011D, me->i2c_dev);
+//  i2c_write(0x15, 0x0000, me->i2c_dev);
+//  i2c_write(0x17, 0x0009, me->i2c_dev);
+//
+//  i2c_write(0x18, 0x0000, me->i2c_dev);
+//  i2c_write(0x19, 0x3FFF, me->i2c_dev);
+//  i2c_write(0x1A, 0x3FFF, me->i2c_dev);
+//  i2c_write(0x1B, 0x3FFF, me->i2c_dev);
+//  i2c_write(0x1D, 0x0009, me->i2c_dev);
+//
+//  i2c_write(0x1E, 0x0000, me->i2c_dev);
+//  i2c_write(0x1F, 0x3FFF, me->i2c_dev);
+//  i2c_write(0x20, 0x3FFF, me->i2c_dev);
+//  i2c_write(0x21, 0x3FFF, me->i2c_dev);
+//  i2c_write(0x22, 0x3539, me->i2c_dev);
+//  i2c_write(0x23, 0x3536, me->i2c_dev);
+//  i2c_write(0x24, 0x1530, me->i2c_dev);
+//  i2c_write(0x25, 0x630C, me->i2c_dev);
+//  i2c_write(0x30, 0x0320, me->i2c_dev);
+//  i2c_write(0x31, 0x040E, me->i2c_dev);
+//  i2c_write(0x35, 0x0320, me->i2c_dev);
+//  i2c_write(0x36, 0x040E, me->i2c_dev);
+//  i2c_write(0x39, 0x22F0, me->i2c_dev);
+//  i2c_write(0x3B, 0x22F0, me->i2c_dev);
+//  i2c_write(0x3C, 0x31C6, me->i2c_dev);
+//
+//  i2c_write(0x42, 0x1C34, me->i2c_dev);
+//  i2c_write(0x43, 0xADA5, me->i2c_dev);
+//  i2c_write(0x44, 0x1C34, me->i2c_dev);
+//  i2c_write(0x45, 0xADA5, me->i2c_dev);
+//  i2c_write(0x58, 0x0544, me->i2c_dev);
+//  i2c_write(0x54, 0x0AA0, me->i2c_dev);
+//
+//  i2c_write(0x5F, 0x0007, me->i2c_dev);
+//
+//  adpd188_set_mode(me, ADPD188_MODE_PROGRAM);
 
 	/* Return ESP_OK */
 	return ret;
