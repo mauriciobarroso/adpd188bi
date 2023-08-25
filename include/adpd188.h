@@ -221,8 +221,8 @@ esp_err_t adpd188_soft_reset(adpd188_t *const me);
  *
  * @return ESP_OK on success
  */
-esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t slot_a,
-		uint8_t slot_b);
+esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t *slot_a,
+		uint8_t *slot_b);
 
 #ifdef __cplusplus
 }

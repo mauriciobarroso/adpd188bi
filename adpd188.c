@@ -193,8 +193,8 @@ esp_err_t adpd188_soft_reset(adpd188_t *const me) {
 /**
  * @brief Function to perform a software reset todo: write correctly
  */
-esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t slot_a,
-		uint8_t slot_b) {
+esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t *slot_a,
+		uint8_t *slot_b) {
 	esp_err_t ret = ESP_OK;
 
 	uint16_t reg_val = 0;
