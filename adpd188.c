@@ -145,15 +145,10 @@ esp_err_t adpd188_init(adpd188_t *const me, i2c_bus_t *i2c_bus, uint8_t dev_addr
   i2c_write(ADPD188_REG_DATA_ACCESS_CTL, _data, me->i2c_dev);
 
   i2c_read(ADPD188_REG_INT_MASK, &_data, me->i2c_dev);
-  printf("ADPD188_REG_INT_MASK before:\r\n");
-  print_test(_data);
   set_n_bits(&_data, 0x0, 1, 5);
   set_n_bits(&_data, 0x1, 1, 6);
   set_n_bits(&_data, 0x1, 1, 8);
   i2c_write(ADPD188_REG_INT_MASK, _data, me->i2c_dev);
-  i2c_read(ADPD188_REG_INT_MASK, &_data, me->i2c_dev);
-  printf("ADPD188_REG_INT_MASK after:\r\n");
-  print_test(_data);
 
   i2c_read(ADPD188_REG_GPIO_DRV, &_data, me->i2c_dev);
   set_n_bits(&_data, 0x1, 1, 0);
@@ -190,6 +185,31 @@ esp_err_t adpd188_soft_reset(adpd188_t *const me) {
 	i2c_write(ADPD188_REG_SW_RESET, 0x0001, me->i2c_dev);
 
 	vTaskDelay(pdMS_TO_TICKS(100));
+
+	/* Return ESP_OK */
+	return ret;
+}
+
+/**
+ * @brief Function to perform a software reset todo: write correctly
+ */
+esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t slot_a,
+		uint8_t slot_b) {
+	esp_err_t ret = ESP_OK;
+
+	uint16_t reg_val = 0;
+
+	print_test(reg_val);
+
+	i2c_read(ADPD188_REG_STATUS, &reg_val, me->i2c_dev);
+
+  *fifo = (reg_val >> 8) & 0xFF;
+  *slot_a = (reg_val >> 5) & 0x01;
+  *slot_b = (reg_val >> 6) & 0x01;
+
+  i2c_write(ADPD188_REG_STATUS, 0xFFFF, me->i2c_dev);
+  i2c_read(ADPD188_REG_STATUS, &reg_val, me->i2c_dev);
+  print_test(reg_val);
 
 	/* Return ESP_OK */
 	return ret;

@@ -214,6 +214,16 @@ esp_err_t adpd188_set_mode(adpd188_t *const me, adpd188_mode_e mode);
  */
 esp_err_t adpd188_soft_reset(adpd188_t *const me);
 
+/**
+ * @brief Function to perform a software reset todo: write correctly
+ *
+ * @param me : Pointer to a adpd188_t instance
+ *
+ * @return ESP_OK on success
+ */
+esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t slot_a,
+		uint8_t slot_b);
+
 #ifdef __cplusplus
 }
 #endif
