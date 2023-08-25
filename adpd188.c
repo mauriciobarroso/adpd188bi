@@ -132,6 +132,31 @@ esp_err_t adpd188_init(adpd188_t *const me, i2c_bus_t *i2c_bus, uint8_t dev_addr
 
   adpd188_set_mode(me, ADPD188_MODE_PROGRAM);
 
+  uint16_t _data;
+  i2c_read(ADPD188_REG_SAMPLE_CLK, &_data, me->i2c_dev);
+  set_n_bits(&_data, 0x1, 1, 7);
+  i2c_write(ADPD188_REG_SAMPLE_CLK, _data, me->i2c_dev);
+
+  i2c_read(ADPD188_REG_DATA_ACCESS_CTL, &_data, me->i2c_dev);
+  set_n_bits(&_data, 0x1, 1, 0);
+  i2c_write(ADPD188_REG_DATA_ACCESS_CTL, _data, me->i2c_dev);
+
+  i2c_read(ADPD188_REG_INT_MASK, &_data, me->i2c_dev);
+  set_n_bits(&_data, 0x0, 1, 5);
+  set_n_bits(&_data, 0x1, 1, 6);
+  set_n_bits(&_data, 0x1, 1, 8);
+  i2c_write(ADPD188_REG_INT_MASK, _data, me->i2c_dev);
+
+  i2c_read(ADPD188_REG_GPIO_DRV, &_data, me->i2c_dev);
+  set_n_bits(&_data, 0x1, 1, 0);
+  set_n_bits(&_data, 0x1, 1, 1);
+  set_n_bits(&_data, 0x1, 1, 2);
+  i2c_write(ADPD188_REG_GPIO_DRV, _data, me->i2c_dev);
+
+  i2c_write(ADPD188_REG_SLOT_EN, 0x3001, me->i2c_dev);
+
+  adpd188_set_mode(me, ADPD188_MODE_NORMAL);
+
 	/* Return ESP_OK */
 	return ret;
 }
