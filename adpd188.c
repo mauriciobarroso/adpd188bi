@@ -211,6 +211,9 @@ esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t *slot_a,
   i2c_read(ADPD188_REG_STATUS, &reg_val, me->i2c_dev);
   print_test(reg_val);
 
+  i2c_read(ADPD188_REG_MODE, &reg_val, me->i2c_dev);
+	print_test(reg_val);
+
 	/* Return ESP_OK */
 	return ret;
 }
