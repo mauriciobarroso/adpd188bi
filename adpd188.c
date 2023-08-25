@@ -227,7 +227,7 @@ esp_err_t adpd188_read_sens_data(adpd188_t *const me, uint8_t slot, uint8_t ch,
   set_n_bits(&reg_val, slot + 1, 1, 1);
   i2c_write(ADPD188_REG_DATA_ACCESS_CTL, reg_val, me->i2c_dev);
 
-  i2c_read(ADPD188_REG_SLOTA_CH1 + slot + ch, &data, me->i2c_dev);
+  i2c_read(ADPD188_REG_SLOTA_CH1 + slot + ch, data, me->i2c_dev);
 
   i2c_read(ADPD188_REG_DATA_ACCESS_CTL, &reg_val, me->i2c_dev);
   set_n_bits(&reg_val, slot + 1, 1, 0);
