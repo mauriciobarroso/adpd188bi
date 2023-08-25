@@ -167,7 +167,7 @@ typedef enum {
  * @brief Smoke 2 description setting to select mode.
  */
 typedef enum {
-	ADPD188_MODE_,IDLE = 0,
+	ADPD188_MODE_IDLE = 0,
 	ADPD188_MODE_PROGRAM,
 	ADPD188_MODE_NORMAL
 } adpd188_mode_e;
@@ -194,6 +194,25 @@ typedef struct {
  * @return ESP_OK on success
  */
 esp_err_t adpd188_init(adpd188_t *const me, i2c_bus_t *i2c_bus, uint8_t dev_addr);
+
+/**
+ * @brief Function to set the working mode of the ADPD188
+ *
+ * @param me   : Pointer to a adpd188_t instance
+ * @param mode : Working mode: IDLE, PROGRAM and NORMAL.
+ *
+ * @return ESP_OK on success
+ */
+esp_err_t adpd188_set_mode(adpd188_t *const me, adpd188_mode_e mode);
+
+/**
+ * @brief Function to perform a software reset
+ *
+ * @param me : Pointer to a adpd188_t instance
+ *
+ * @return ESP_OK on success
+ */
+esp_err_t adpd188_soft_reset(adpd188_t *const me);
 
 #ifdef __cplusplus
 }
