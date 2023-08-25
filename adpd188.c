@@ -199,9 +199,9 @@ esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t *slot_a,
 
 	uint16_t reg_val = 0;
 
-	print_test(reg_val);
 
 	i2c_read(ADPD188_REG_STATUS, &reg_val, me->i2c_dev);
+	print_test(reg_val);
 
   *fifo = (reg_val >> 8) & 0xFF;
   *slot_a = (reg_val >> 5) & 0x01;
