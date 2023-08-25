@@ -54,6 +54,9 @@ static bool set_n_bits(uint16_t *target, uint16_t bits_val_val, uint8_t n,
 static bool get_n_bits(uint16_t target, uint16_t *bits_val_val,  uint8_t n,
 		uint8_t index);
 
+static void print_binary(uint16_t val);
+static void print_test(uint16_t bits_val);
+
 /* Exported functions definitions --------------------------------------------*/
 /**
  * @brief Function to initialize a ADPD188 instance.
@@ -142,10 +145,15 @@ esp_err_t adpd188_init(adpd188_t *const me, i2c_bus_t *i2c_bus, uint8_t dev_addr
   i2c_write(ADPD188_REG_DATA_ACCESS_CTL, _data, me->i2c_dev);
 
   i2c_read(ADPD188_REG_INT_MASK, &_data, me->i2c_dev);
+  printf("ADPD188_REG_INT_MASK before:\r\n");
+  print_test(_data);
   set_n_bits(&_data, 0x0, 1, 5);
   set_n_bits(&_data, 0x1, 1, 6);
   set_n_bits(&_data, 0x1, 1, 8);
   i2c_write(ADPD188_REG_INT_MASK, _data, me->i2c_dev);
+  i2c_read(ADPD188_REG_INT_MASK, &_data, me->i2c_dev);
+  printf("ADPD188_REG_INT_MASK after:\r\n");
+  print_test(_data);
 
   i2c_read(ADPD188_REG_GPIO_DRV, &_data, me->i2c_dev);
   set_n_bits(&_data, 0x1, 1, 0);
@@ -271,6 +279,27 @@ static bool get_n_bits(uint16_t target, uint16_t *bits_val,  uint8_t n, uint8_t 
 	*bits_val = (target >> index) & mask;
 
 	return true;
+}
+
+static void print_binary(uint16_t val) {
+	for (int i = 15; i >= 0; i--) {
+        if (i > 9) {
+            printf(" ");
+        }
+
+		printf("%d ", val & (0x1 << i) ? 1 : 0);
+	}
+	printf("\r\n");
+}
+
+static void print_test(uint16_t bits_val) {
+    print_binary(bits_val);
+
+    for (int i = 15; i >= 0; i--) {
+        printf("%d ", i);
+    }
+
+    printf("\n");
 }
 
 /***************************** END OF FILE ************************************/
