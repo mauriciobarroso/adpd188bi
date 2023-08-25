@@ -215,6 +215,25 @@ esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t *slot_a,
 	return ret;
 }
 
+/**
+ * @brief Function to perform a software reset todo: write correctly
+ */
+esp_err_t adpd188_read_sens_data(adpd188_t *const me, uint8_t slot, uint8_t ch,
+		uint16_t *data) {
+	esp_err_t ret = ESP_OK;
+
+  i2c_read(ADPD188_REG_DATA_ACCESS_CTL, data, me->i2c_dev);
+  set_n_bits(data, slot + 1, 1, 1);
+  i2c_write(ADPD188_REG_DATA_ACCESS_CTL, *data, me->i2c_dev);
+
+  i2c_read(ADPD188_REG_DATA_ACCESS_CTL, data, me->i2c_dev);
+  set_n_bits(data, slot + 1, 1, 0);
+  i2c_write(ADPD188_REG_DATA_ACCESS_CTL, *data, me->i2c_dev);
+
+	/* Return ESP_OK */
+	return ret;
+}
+
 /* Private function definitions ----------------------------------------------*/
 static int8_t i2c_read(uint8_t reg_addr, uint16_t *reg_data, void *intf) {
 	int8_t ret = 0;
