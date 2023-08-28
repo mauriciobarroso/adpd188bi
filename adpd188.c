@@ -288,12 +288,12 @@ esp_err_t adpd188_calibration(adpd188_t *const me, uint16_t threshold) {
 
 	me->threshold_value = threshold;
 
-	adpd188_read_data(ADPD188_REG_SLOT_EN, &me->threshold_value , me->i2c_dev);
+	adpd188_read_data(ADPD188_REG_SLOT_EN, &me->enabled_slot , me->i2c_dev);
 
-	if ((me->threshold_value  & 0x0001) == 0x0001) {
+	if ((me->enabled_slot  & 0x0001) == 0x0001) {
 		me->enabled_slot = ADPD188_SLOT_A;
 	}
-	else if ((me->threshold_value  & 0x0020) == 0x0020) {
+	else if ((me->enabled_slot  & 0x0020) == 0x0020) {
 		me->enabled_slot = ADPD188_SLOT_B;
 	}
 
