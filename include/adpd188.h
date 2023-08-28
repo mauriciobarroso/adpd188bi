@@ -136,10 +136,6 @@ extern "C" {
 #define ADPD188_REG_B_CH3_HIGH				0x7E
 #define ADPD188_REG_B_CH4_HIGH				0x7F
 
-/* ADPD188 description setting for detection smoke */
-#define ADPD188_SMOKE_DETECTED				0xCC,
-#define ADPD188_SMOKE_NOT_DETECTED		0xDD
-
 /*  */
 #define ADPD188_READ_CMD							0
 #define ADPD188_WRITE_CMD							1
@@ -172,6 +168,15 @@ typedef enum {
 	ADPD188_MODE_NORMAL
 } adpd188_mode_e;
 
+/**
+ * @brief Smoke 2 description setting to select mode.
+ */
+typedef enum {
+	ADPD188_SMOKE_ERROR = 0x0,
+	ADPD188_SMOKE_DETECTED = 0xCC,
+	ADPD188_SMOKE_NOT_DETECTED = 0xDD
+} adpd188_smoke_e;
+
 typedef struct {
 	i2c_bus_dev_t *i2c_dev;
 	int int_gpio;
@@ -193,7 +198,8 @@ typedef struct {
  *
  * @return ESP_OK on success
  */
-esp_err_t adpd188_init(adpd188_t *const me, i2c_bus_t *i2c_bus, uint8_t dev_addr);
+esp_err_t adpd188_init(adpd188_t *const me, i2c_bus_t *i2c_bus,
+		uint8_t dev_addr, int int_gpio);
 
 /**
  * @brief Function to set the working mode of the ADPD188
@@ -204,6 +210,16 @@ esp_err_t adpd188_init(adpd188_t *const me, i2c_bus_t *i2c_bus, uint8_t dev_addr
  * @return ESP_OK on success
  */
 esp_err_t adpd188_set_mode(adpd188_t *const me, adpd188_mode_e mode);
+
+/**
+ * @brief Function to set the working mode of the ADPD188
+ *
+ * @param me   : Pointer to a adpd188_t instance
+ * @param mode : Working mode: IDLE, PROGRAM and NORMAL.
+ *
+ * @return ESP_OK on success
+ */
+esp_err_t adpd188_get_mode(adpd188_t *const me, adpd188_mode_e *mode);
 
 /**
  * @brief Function to perform a software reset
@@ -233,6 +249,62 @@ esp_err_t adpd188_get_int(adpd188_t *const me, uint8_t *fifo, uint8_t *slot_a,
  */
 esp_err_t adpd188_read_sens_data(adpd188_t *const me, uint8_t slot, uint8_t ch,
 		uint16_t *data);
+
+/**
+ * @brief Function to perform a software reset todo: write correctly
+ *
+ * @param me : Pointer to a adpd188_t instance
+ *
+ * @return ESP_OK on success
+ */
+esp_err_t adpd188_set_bit(adpd188_t *const me, uint8_t reg_addr, uint8_t bit_num,
+		bool bit_val);
+
+/**
+ * @brief Function to perform a software reset todo: write correctly
+ *
+ * @param me : Pointer to a adpd188_t instance
+ *
+ * @return ESP_OK on success
+ */
+esp_err_t adpd188_set_bit_mask(adpd188_t *const me, uint8_t reg_addr,
+		uint8_t bits_num,	uint16_t bits_val);
+
+/**
+ * @brief Function to perform a software reset todo: write correctly
+ *
+ * @param me : Pointer to a adpd188_t instance
+ *
+ * @return ESP_OK on success
+ */
+esp_err_t adpd188_calibration(adpd188_t *const me, uint16_t threshold);
+
+/**
+ * @brief Function to perform a software reset todo: write correctly
+ *
+ * @param me : Pointer to a adpd188_t instance
+ *
+ * @return ESP_OK on success
+ */
+uint16_t adpd188_get_calib(adpd188_t *const me);
+
+/**
+ * @brief Function to perform a software reset todo: write correctly
+ *
+ * @param me : Pointer to a adpd188_t instance
+ *
+ * @return ESP_OK on success
+ */
+esp_err_t adpd188_check_smoke(adpd188_t *const me, adpd188_smoke_e *smoke);
+
+/**
+ * @brief Function to perform a software reset todo: write correctly
+ *
+ * @param me : Pointer to a adpd188_t instance
+ *
+ * @return ESP_OK on success
+ */
+int adpd188_get_int_gpio(adpd188_t *const me);
 
 #ifdef __cplusplus
 }
