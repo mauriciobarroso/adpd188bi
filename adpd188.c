@@ -338,6 +338,8 @@ esp_err_t adpd188_check_smoke(adpd188_t *const me, adpd188_smoke_e *smoke) {
 		else {
 			*smoke = ADPD188_SMOKE_NOT_DETECTED;
 		}
+
+		return ret;
 	}
 
 	*smoke = ADPD188_SMOKE_ERROR;
