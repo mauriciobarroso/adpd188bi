@@ -286,6 +286,8 @@ esp_err_t adpd188_set_bit_mask(adpd188_t *const me, uint8_t reg_addr,
 esp_err_t adpd188_calibration(adpd188_t *const me, uint16_t threshold) {
 	esp_err_t ret = ESP_OK;
 
+	me->threshold_value = threshold;
+
 	adpd188_read_data(ADPD188_REG_SLOT_EN, &me->threshold_value , me->i2c_dev);
 
 	if ((me->threshold_value  & 0x0001) == 0x0001) {
