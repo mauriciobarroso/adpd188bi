@@ -299,16 +299,20 @@ esp_err_t adpd188_calibration(adpd188_t *const me, uint16_t threshold) {
 
 	/* Read data for calibration */
 	uint32_t sum = 0;
+	uint16_t reg_data = 0x0;
+	uint8_t cnt = 0;
 
-	for (uint8_t i = 0; i < 64; i++) {
+	while (cnt < 128) {
 		if (!adpd188_get_int_gpio(me)) {
-			uint16_t reg_data = 0x0;
 			adpd188_read_sens_data(me, me->enabled_slot, ADPD188_CH_1, &reg_data);
-			sum += reg_data;
+			if (reg_data != 0) {
+				cnt++;
+				sum += reg_data;
+			}
 		}
 	}
 
-	me->calib_value = sum >> 6;
+	me->calib_value = sum >> 7;
 
 	/* Return ESP_OK*/
 	return ret;
