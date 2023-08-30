@@ -172,9 +172,9 @@ typedef enum {
  * @brief Smoke 2 description setting to select mode.
  */
 typedef enum {
-	ADPD188_SMOKE_ERROR = 0x0,
-	ADPD188_SMOKE_DETECTED = 0xCC,
-	ADPD188_SMOKE_NOT_DETECTED = 0xDD
+	ADPD188_SMOKE_ERROR = -1,
+	ADPD188_SMOKE_NOT_DETECTED = 0,
+	ADPD188_SMOKE_DETECTED = 1
 } adpd188_smoke_e;
 
 typedef struct {
