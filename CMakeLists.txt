@@ -1,3 +1,3 @@
-idf_component_register(SRCS "adpd188.c"
+idf_component_register(SRCS "adpd188bi.c"
                     INCLUDE_DIRS "include"
-                    REQUIRES i2c_bus driver)
+                    REQUIRES driver esp_timer)
