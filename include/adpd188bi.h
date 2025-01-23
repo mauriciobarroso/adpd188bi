@@ -185,7 +185,7 @@ typedef struct {
 	int int_gpio;
 	uint16_t calib_value;
 	uint16_t threshold_value;
-	uint8_t enabled_slot;
+	uint16_t enabled_slot;
 } adpd188bi_t;
 
 /* Exported variables --------------------------------------------------------*/

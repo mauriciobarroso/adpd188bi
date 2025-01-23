@@ -47,7 +47,7 @@
 /* Private typedef -----------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-static const char *TAG = "adpd188";
+static const char *TAG = "adpd188bi";
 
 /* Private function prototypes -----------------------------------------------*/
 static int8_t i2c_read(uint8_t reg_addr, uint16_t *reg_data,
